@@ -1,0 +1,10 @@
+diffusers
+transformers
+accelerate
+safetensors
+controlnet_aux==0.0.7
+xformers
+runpod
+opencv-python
+torch
+pillow
