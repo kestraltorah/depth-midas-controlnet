@@ -1,4 +1,4 @@
-FROM runpod/pytorch:2.0.1-py3.10-cuda11.8.0-devel
+FROM runpod/pytorch:1.13.0-cuda11.7.1-base-deps
 
 WORKDIR /workspace
 
