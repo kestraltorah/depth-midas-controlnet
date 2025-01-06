@@ -1,19 +1,28 @@
-FROM python:3.10-slim
+FROM runpod/base:0.4.0
 
-WORKDIR /workspace
+WORKDIR /
+
+# 安装系统依赖
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # 复制项目文件
-COPY builder/requirements.txt /workspace/builder/
-COPY src /workspace/src
+COPY requirements.txt /requirements.txt
+COPY src /src
 
-# 安装依赖
-RUN pip install -r /workspace/builder/requirements.txt
+# 安装Python依赖
+RUN pip3 install --no-cache-dir -r /requirements.txt
 
 # 创建模型目录
-RUN mkdir -p /workspace/models
+RUN mkdir -p /models
 
 # 下载模型
-RUN python3 /workspace/src/download_models.py
+RUN python3 /src/download.py
+
+# 设置权限
+RUN chmod +x /src/handler.py
 
 # 启动服务
-CMD [ "python3", "-u", "/workspace/src/handler.py" ]
+CMD [ "python3", "-u", "/src/handler.py" ]
